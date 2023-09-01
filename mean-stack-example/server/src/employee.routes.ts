@@ -2,7 +2,7 @@
 import e, * as express from "express";
 import * as mongodb from "mongodb";
 import { collections } from "./database";
-import { error } from "console";
+import { clear, error } from "console";
 
 // I create the Router for the Employees and the middleware so the router can analyze all http request in json format 
 export const employeeRouter = express.Router();
@@ -16,7 +16,7 @@ employeeRouter.get("/", async (_req, res) => {
     } catch (error) {
         res.status(500).send(error.message)
     }
-})
+});
 
 // Get enpoint to allow me to get a single Employee by ID
 employeeRouter.get("/:id", async(req, res) => {
@@ -33,4 +33,21 @@ employeeRouter.get("/:id", async(req, res) => {
     } catch (error) {
         res.status(400).send(`Failed to find an employee: ID ${req?.params?.id}`);
     }
-})
+});
+
+// Define the POST method to create a new employee
+employeeRouter.post("/",async (req, res) => {
+    try {
+        const employee = req.body;
+        const result = await collections.employee.insertOne(employee);
+
+        if (result.acknowledged) {
+            res.status(200).send(`Created a new employee: ID ${result.insertedId}.`);
+        } else {
+            res.status(400).send("Failed to create a new employee.")
+        }
+    } catch (error) {
+            console.error(error);
+            res.status(400).send(error.message);
+    }
+});
