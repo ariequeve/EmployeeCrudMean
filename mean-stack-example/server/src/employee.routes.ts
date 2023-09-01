@@ -1,5 +1,5 @@
 // The ‘GET /employees’ endpoint which will allow us to get all the employees in the database.
-import * as express from "express";
+import e, * as express from "express";
 import * as mongodb from "mongodb";
 import { collections } from "./database";
 import { error } from "console";
@@ -15,5 +15,22 @@ employeeRouter.get("/", async (_req, res) => {
         res.status(200).send(employee);
     } catch (error) {
         res.status(500).send(error.message)
+    }
+})
+
+// Get enpoint to allow me to get a single Employee by ID
+employeeRouter.get("/:id", async(req, res) => {
+    try {
+        const id = req?.params?.id;
+        const query = { _id: new mongodb.ObjectId(id) };
+        const employee = await collections.employee.findOne(query);
+
+        if (employee) {
+            res.status(200).send(employee);
+        } else {
+            res.status(500).send(`Failed to find an employee ID: ${id}`);
+        }
+    } catch (error) {
+        res.status(400).send(`Failed to find an employee: ID ${req?.params?.id}`);
     }
 })
