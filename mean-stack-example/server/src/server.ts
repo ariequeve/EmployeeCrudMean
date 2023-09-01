@@ -4,6 +4,7 @@ import cors from "cors";
 import express from "express";
 import { connectToDatabase } from "./database";
 import { dot } from "node:test/reporters";
+import { employeeRouter } from "./employee.routes";
 
 // Load environment variables from the .env file, where the ATLAS_URI is configured
 dotenv.config();
@@ -19,8 +20,8 @@ connectToDatabase (ATLAS_URI)
     .then (() => {
         const app = express();
         app.use(cors());
-
-        //start the express server
+        // Registar and start the express server
+        app.use("employees", employeeRouter);
         app.listen(5200, () => {
             console.log(`server running at https://localhost:5200..`)
         })
