@@ -36,7 +36,7 @@ employeeRouter.get("/:id", async(req, res) => {
 });
 
 // Define the POST method to create a new employee
-employeeRouter.post("/",async (req, res) => {
+employeeRouter.post("/", async (req, res) => {
     try {
         const employee = req.body;
         const result = await collections.employee.insertOne(employee);
@@ -49,5 +49,47 @@ employeeRouter.post("/",async (req, res) => {
     } catch (error) {
             console.error(error);
             res.status(400).send(error.message);
+    }
+});
+
+// Define the PUT method to update an existing employee
+employeeRouter.put("/:id", async (req, res) => {
+    try {
+        const id = req?.params?.id;
+        const employee = req.body;
+        const query = { _id: new mongodb.ObjectId(id) };
+        const result = await collections.employee.updateOne(query, { $set: employee })
+
+        if (result.acknowledged && result.matchedCount) {
+            res.status(200).send(`You have updated the employee: ID ${id}`);
+        } else if (!result.matchedCount) {
+            res.status(404).send(`Failed to find employee: ID ${id}`);
+        } else {
+            res.status(304).send(`Failed to update a new employee: ID ${id}`);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(400).send(error.message);
+    }
+});
+
+// Define the DEL method to remove an existing employee
+employeeRouter.delete("/:id", async (req, res) => {
+    try {
+        const id = req?.params?.id;
+        const employee = req.body;
+        const query = { _id: new mongodb.ObjectId(id)};
+        const result = await collections.employee.deleteOne(query);
+
+        if (result.acknowledged && result.deletedCount) {
+            res.status(200).send(`You have deleted the employee: ID ${id}`);
+        } else if (!result.deletedCount) {
+            res.status(404).send(`Failed to find employee: ID ${id}`);
+        } else {
+            res.status(304).send(`Failed to delete a new employee: ID ${id}`);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(400).send(error.message);
     }
 });
