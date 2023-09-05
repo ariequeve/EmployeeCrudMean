@@ -15,6 +15,7 @@ import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
     AppComponent,
     EmployeesListComponent,
     EmployeeFormComponent,
+    ReactiveFormsModule,
     AddEmployeeComponent,
     EditEmployeeComponent
   ],
