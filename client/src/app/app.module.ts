@@ -15,14 +15,14 @@ import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
     AppComponent,
     EmployeesListComponent,
     EmployeeFormComponent,
-    ReactiveFormsModule,
     AddEmployeeComponent,
     EditEmployeeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
+    AppRoutingModule,    
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

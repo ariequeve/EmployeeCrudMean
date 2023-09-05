@@ -2,7 +2,6 @@
 import e, * as express from "express";
 import * as mongodb from "mongodb";
 import { collections } from "./database";
-import { clear, error } from "console";
 
 // I create the Router for the Employees and the middleware so the router can analyze all http request in json format 
 export const employeeRouter = express.Router();

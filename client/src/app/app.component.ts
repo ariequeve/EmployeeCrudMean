@@ -6,8 +6,6 @@ import { Component } from '@angular/core';
   <div class="container-md">  
     <router-outlet></router-outlet>
   </div>
-  `,
-  styles: []
+  `
 })
-export class AppComponent { 
-}
+export class AppComponent { }

@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
 import { Employee } from './employee';
-import { raw } from 'express';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private url = 'http://localhost:5200';
-  private employees$: Subject<Employee[]> = new Subject;
+  private url = 'http://localhost';
+  private employees$: Subject<Employee[]> = new Subject;  
 
 
   constructor(private httpClient: HttpClient) { }
@@ -32,15 +31,15 @@ export class EmployeeService {
   }
 
   createEmployee(employee: Employee): Observable<string> {
-    return this.httpClient.post(`${this.url}/employees/`, employee, { responseType: 'text' });
+    return this.httpClient.post(`${this.url}/employees`, employee, { responseType: 'text' });
   }
 
   updateEmployee(id: string, employee: Employee): Observable<string> {
-    return this.httpClient.put(`${this.url}/employee/`, employee, { responseType: 'text' });
+    return this.httpClient.put(`${this.url}/employees/${id}`, employee, { responseType: 'text' });
   }
 
   deleteEmployee(id: string): Observable<string> {
-    return this.httpClient.delete(`${this.url}/employee/`, { responseType: 'text' });
+    return this.httpClient.delete(`${this.url}/employees/${id}`, { responseType: 'text' });
   }
 
 }
